@@ -14,10 +14,13 @@ class gCodeFile
 		~gCodeFile();
 		int readFile();
 		void printCommands();
+		const vector<gCommand*>* getCommands();	
 		
 	private:
 		string fileName;
 		vector<gCommand*>* commands;
+		bool absolute;
+		int addNewCommand( unsigned int, unsigned int);
 		int evalLast( const char, unsigned int&, const string);
 };
 

@@ -4,7 +4,8 @@
 #include <string>
 
 gCodeFile::gCodeFile( const string& fileName):
-	fileName(fileName)
+	fileName(fileName),
+	absolute( true)
 {		
 	commands = new vector<gCommand*>();
 }
@@ -42,7 +43,7 @@ int gCodeFile::readFile()
 			number = "";	
 			lastChar = c;
 		}
-		else if( c > 47 && c < 58 || c == '.')
+		else if( c > 47 && c < 58 || c == '.' || c == '-')
 		{
 			number += c;
 		} 
@@ -53,15 +54,13 @@ int gCodeFile::readFile()
 
 int gCodeFile::evalLast( const char c, unsigned int& N, const string number)
 {
-	cout << c << endl;
-	cout << number << endl;
 	switch( c)
 	{
 		case 'N': 
 			N = stoi( number);  
 			break;
 		case 'G': 
-			this->commands->push_back( new gCommand( stoi( number), N));
+			this->addNewCommand( stoi( number), N);
 			break;
 		case 'X': 
 			this->commands->back()->setX( stod(number));
@@ -79,6 +78,24 @@ int gCodeFile::evalLast( const char c, unsigned int& N, const string number)
 	}
 }
 
+int gCodeFile::addNewCommand( unsigned int g, unsigned int n)
+{
+	gCommand* gC = new gCommand( g, n);
+	if( this->absolute && !this->commands->empty()){ 
+		gC->setX( this->commands->back()->getX());
+		gC->setY( this->commands->back()->getY());
+		gC->setZ( this->commands->back()->getZ());
+	}
+	else
+	{
+		gC->setX( 0);
+		gC->setY( 0);
+		gC->setZ( 0);
+	}
+	this->commands->push_back( gC);
+	return 1;
+}
+
 void gCodeFile::printCommands()
 {
 	for( int i = 0; i < this->commands->size(); i++)
@@ -87,4 +104,8 @@ void gCodeFile::printCommands()
 	}
 }
 
+const vector<gCommand*>* gCodeFile::getCommands()
+{
+	return this->commands;
+}
 
