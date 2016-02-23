@@ -16,7 +16,7 @@ bool cncState::isAbsolute()
 
 bool cncState::isInMill()
 {
-	return this->inMill();
+	return this->inMill;
 }
 
 const point<int>& cncState::getStepPos()
@@ -29,7 +29,7 @@ const point<double>& cncState::getPos()
 	return this->pos;
 }
 
-void cncStatesetAbsolute( bool b)
+void cncState::setAbsolute( bool b)
 {
 	this->absolute = b;
 }
@@ -41,16 +41,16 @@ void cncState::setInMill( bool b)
 
 void cncState::setStepPos( int x, int y, int z)
 {
-	this->setStepPos.setX( x);
-	this->setStepPos.setY( y);
-	this->setStepPos.setZ( z);
+	this->stepPos.setX( x);
+	this->stepPos.setY( y);
+	this->stepPos.setZ( z);
 }
 
 void cncState::setPos( double x, double y, double z)
 {
-	this->setPos.setX( x);
-	this->setPos.setY( y);
-	this->setPos.setZ( z);
+	this->pos.setX( x);
+	this->pos.setY( y);
+	this->pos.setZ( z);
 }
 
 

@@ -24,3 +24,5 @@ class cncState{
 		point<int> stepPos;
 		point<double> pos;
 };
+
+#endif
