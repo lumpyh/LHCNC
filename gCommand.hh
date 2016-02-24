@@ -16,6 +16,7 @@ class gCommand
 		int setZ( double z);
 		int setN( unsigned int n);
 		unsigned int getN();
+		unsigned int getG();
 		double getX();	
 		double getY();	
 		double getZ();	

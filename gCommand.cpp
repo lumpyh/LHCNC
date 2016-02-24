@@ -51,6 +51,11 @@ unsigned int gCommand::getN()
 	return this->N;
 }
 
+unsigned int gCommand::getG()
+{
+	return this->G;
+}
+
 double gCommand::getX()
 {
 	return this->X;

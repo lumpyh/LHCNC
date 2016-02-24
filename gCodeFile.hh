@@ -14,7 +14,7 @@ class gCodeFile
 		~gCodeFile();
 		int readFile();
 		void printCommands();
-		const vector<gCommand*>* getCommands();	
+		vector<gCommand*>* getCommands();	
 		
 	private:
 		string fileName;

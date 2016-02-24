@@ -3,7 +3,7 @@
 cncState::cncState():
 	absolute( true),
 	inMill( true),
-	stepsPerMill( 1000),
+	stepsPerMill( 50),
 	stepPos( 0, 0, 0),
 	pos( 0, 0, 0)
 {
@@ -53,7 +53,10 @@ void cncState::setPos( double x, double y, double z)
 	this->pos.setZ( z);
 }
 
-
+int cncState::getStepsPerMill()
+{
+	return this->stepsPerMill;
+}
 
 
 

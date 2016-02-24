@@ -104,8 +104,8 @@ void gCodeFile::printCommands()
 	}
 }
 
-const vector<gCommand*>* gCodeFile::getCommands()
+
+vector<gCommand*>* gCodeFile::getCommands()
 {
 	return this->commands;
 }
-
