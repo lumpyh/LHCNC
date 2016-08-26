@@ -74,8 +74,8 @@ int gCodeFile::evalLast( const char c, unsigned int& N, const string number)
 		default:
 				cout << "Command " << c << " not known!" << endl;
 
-		return 1;
 	}
+	return 1;
 }
 
 int gCodeFile::addNewCommand( unsigned int g, unsigned int n)

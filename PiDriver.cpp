@@ -4,6 +4,10 @@
 
 
 PiDriver::PiDriver():
+	tP{NULL},
+	currX{0},
+	currY{0},
+	currZ{0},
 	xPin{0},	
 	xDir{1},
 	yPin{2},	
@@ -53,7 +57,7 @@ void PiDriver::progress( short x, short y, short z)
 	if( z != 0)
 		digitalWrite( zPin, 1);
 
-	usleep( 51000);
+	usleep( 1000);
 	
 	if( x != 0)
 		digitalWrite( xPin, 0);
@@ -61,5 +65,70 @@ void PiDriver::progress( short x, short y, short z)
 		digitalWrite( yPin, 0);
 	if( z != 0)
 		digitalWrite( zPin, 0);
-	usleep( 51000);
+	usleep( 1000);
 }
+
+void PiDriver::setPath( vector<toolPath*>* p)
+{
+	this->tP = p;
+	this->currX = p->at(0)->at(0)->getX();
+	this->currY = p->at(0)->at(0)->getY();
+	this->currZ = p->at(0)->at(0)->getZ();
+}
+
+
+void PiDriver::doTheJob()
+{
+	int x = 0;
+	int y = 0;
+	int z = 0;
+	toolPath* p;
+	for( int i = 0; i < this->tP->size(); i++)
+	{
+		p = this->tP->at(i);
+		for( int j = 0; j < p->size(); j++)
+		{
+			x = p->at(j)->getX();		
+			y = p->at(j)->getY();		
+			z = p->at(j)->getZ();		
+			this->progress( x - currX, y - currY, z - currZ);
+			currX = x;
+			currY = y;
+     			currZ = z;
+		}	
+	}
+}
+
+void PiDriver::goX( int i)
+{
+	int dir = 1;
+	if( i < 0) dir = -1;
+	for( int j = 0; j != i; j += dir)
+	{
+		this->progress( dir, 0, 0);
+	}
+}
+
+void PiDriver::goY( int i)
+{
+	int dir = 1;
+	if( i < 0) dir = -1;
+	for( int j = 0; j != i; j += dir)
+	{
+		this->progress( 0, dir, 0);
+	}
+}
+
+void PiDriver::goZ( int i)
+{
+	int dir = 1;
+	if( i < 0) dir = -1;
+	for( int j = 0; j != i; j += dir)
+	{
+		this->progress( 0, 0, dir);
+	}
+}
+
+
+
+
