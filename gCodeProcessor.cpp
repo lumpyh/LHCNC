@@ -33,12 +33,81 @@ void gCodeProcessor::processCommand( gCommand* command)
 		case 1:
 			this->createLinearPath( command);
 			break;
+		case 2:
+			this->createCircularPath( command);
+			break;
+		case 3:
+			this->createCircularPath( command);
+			break;
 		default:
 			cout << "Command G" << G << " not known!" << endl;
 			break;
 	}
 }
 
+void gCodeProcessor::createCircularPath( gCommand* command)
+{
+	toolPath* cPath = new toolPath();
+	int xs, ys, zs;
+	int xz, yz;
+	int I, J, ix, iy, iz;
+	double alpha, ialpha;
+	int xc, yc;
+	double R;
+	bool loopDone = false;
+	bool fullCircle = false;
+
+	if( pathes->empty())
+	{
+		xs = 0;
+		ys = 0;
+		zs = 0;
+	}
+	else
+	{
+		xs = pathes->back()->back()->getX();
+		ys = pathes->back()->back()->getY();
+		zs = pathes->back()->back()->getZ();
+	}
+
+	xz = int( command->getX() * this->mState.getStepsPerMill());
+	yz = int( command->getY() * this->mState.getStepsPerMill());
+
+	xc = int( command->getI() * this->mState.getStepsPerMill()) + xs;
+	yc = int( command->getJ() * this->mState.getStepsPerMill()) + ys;
+
+	I = int( command->getI() * this->mState.getStepsPerMill());
+	J = int( command->getJ() * this->mState.getStepsPerMill());
+
+	R = sqrt( I*I + J*J);
+
+	alpha =  0.5 / R; //the 0.5 ensures that in creating the radial motion, the path does not skip a step
+
+	if( command->getG() == 3)
+		alpha *= -1;
+
+	ialpha = atan( double( -I)/double( -J));
+	ix = 0;
+	iy = 0;
+	iz = zs;
+
+	if( xs == xz && ys == yz)
+		fullCircle = true;	
+
+
+	do
+	{
+		ialpha += alpha;
+		ix = xc + int( round( sin( ialpha) * R));
+		iy = yc + int( round( cos( ialpha) * R));
+		if( cPath->empty() || cPath->back()->getX() != ix || cPath->back()->getY() != iy)
+			cPath->push_back( new point<int>( ix, iy, iz));
+		if( ix == xz && iy == yz && (!fullCircle || abs(ialpha - atan( double(-I)/double(-J))) > 1))
+			loopDone = true;	
+	}while( !loopDone);	
+	
+	if( !cPath->empty()) pathes->push_back( cPath);
+}
 
 void gCodeProcessor::createLinearPath( gCommand* command)
 {

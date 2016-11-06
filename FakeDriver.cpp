@@ -40,7 +40,7 @@ void FakeDriver::doTheJob()
 	int y = 0;
 	int z = 0;
 	toolPath* p;
-	for( int i = 0; i < this->tP->size(); i++)
+	for( unsigned int i = 0; i < this->tP->size(); i++)
 	{
 		p = this->tP->at(i);
 		for( int j = 0; j < p->size(); j++)

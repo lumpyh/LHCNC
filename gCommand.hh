@@ -14,17 +14,22 @@ class gCommand
 		int setX( double x);
 		int setY( double y);
 		int setZ( double z);
+		int setI( double I);
+		int setJ( double J);
 		int setN( unsigned int n);
 		unsigned int getN();
 		unsigned int getG();
 		double getX();	
 		double getY();	
 		double getZ();	
+		double getI();
+		double getJ();
 		string toString();
 
 	private:
 		unsigned int G, N;
 		double X, Y, Z;
+		double I,J;
 
 };
 

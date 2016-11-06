@@ -15,6 +15,7 @@ class gCodeProcessor
 		~gCodeProcessor();
 		void processCommand( gCommand*);
 		void createLinearPath( gCommand*);
+		void createCircularPath( gCommand*);
 		int size();
 		toolPath* at( int i);
 		vector<toolPath*>* getPathes();

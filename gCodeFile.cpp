@@ -49,6 +49,7 @@ int gCodeFile::readFile()
 		} 
 		
 	}
+	evalLast( lastChar, N, number);
 	return counter;
 }
 
@@ -71,6 +72,12 @@ int gCodeFile::evalLast( const char c, unsigned int& N, const string number)
 		case 'Z': 
 			this->commands->back()->setZ( stod(number));
 			break;
+		case 'I':
+			this->commands->back()->setI( stod(number));
+			break;
+		case 'J':
+			this->commands->back()->setJ( stod(number));
+			break;
 		default:
 				cout << "Command " << c << " not known!" << endl;
 
@@ -85,12 +92,16 @@ int gCodeFile::addNewCommand( unsigned int g, unsigned int n)
 		gC->setX( this->commands->back()->getX());
 		gC->setY( this->commands->back()->getY());
 		gC->setZ( this->commands->back()->getZ());
+		gC->setI( 0);
+		gC->setJ( 0);
 	}
 	else
 	{
 		gC->setX( 0);
 		gC->setY( 0);
 		gC->setZ( 0);
+		gC->setI( 0);
+		gC->setJ( 0);
 	}
 	this->commands->push_back( gC);
 	return 1;

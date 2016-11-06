@@ -3,7 +3,7 @@
 cncState::cncState():
 	absolute( true),
 	inMill( true),
-	stepsPerMill( 50),
+	stepsPerMill( 10),
 	stepPos( 0, 0, 0),
 	pos( 0, 0, 0)
 {
