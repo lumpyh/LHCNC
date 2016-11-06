@@ -2,7 +2,11 @@
 #define CORE_hh
 
 #include "cncMachine.hh"
-#include "PiDriver.hh"
+#ifdef RPI
+	#include "PiDriver.hh"
+#else
+	#include "FakeDriver.hh"
+#endif
 
 class core
 {
@@ -16,7 +20,11 @@ class core
 	private:
 		void goDir();
 		cncMachine cM;
+#ifdef RPI
 		PiDriver driv;
+#else
+		FakeDriver driv;
+#endif
 };
 
 #endif

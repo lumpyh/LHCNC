@@ -1,8 +1,18 @@
 cc = g++
 cflags =-c -Wall -std=c++11
-lflags = -lpthread -lwiringPi
+lflags = -lpthread
+RPI = flase
+depend = core.o cncMachine.o cncState.o gCodeFile.o gCodeProcessor.o gCommand.o toolPath.o point.o
 
-depend = core.o cncMachine.o cncState.o gCodeFile.o gCodeProcessor.o gCommand.o toolPath.o point.o PiDriver.o
+ifeq ($(RPI),true)
+	lflags +=  -lwiringPi
+	cflags +=  -DRPI
+	depend +=  PiDrive.o
+else
+	depend +=  FakeDriver.o
+endif
+
+
 
 
 all: LHCNC 
@@ -33,6 +43,9 @@ toolPath.o: toolPath.cpp
 
 point.o: point.cpp
 	$(cc) $(cflags) point.cpp
+
+FakeDriver.o: FakeDriver.cpp
+	$(cc) $(cflags) FakeDriver.cpp
 
 PiDriver.o: PiDriver.cpp
 	$(cc) $(cflags) PiDriver.cpp

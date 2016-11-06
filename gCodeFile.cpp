@@ -43,7 +43,7 @@ int gCodeFile::readFile()
 			number = "";	
 			lastChar = c;
 		}
-		else if( c > 47 && c < 58 || c == '.' || c == '-')
+		else if( (c > 47 && c < 58) || c == '.' || c == '-')
 		{
 			number += c;
 		} 
@@ -98,7 +98,7 @@ int gCodeFile::addNewCommand( unsigned int g, unsigned int n)
 
 void gCodeFile::printCommands()
 {
-	for( int i = 0; i < this->commands->size(); i++)
+	for( unsigned int i = 0; i < this->commands->size(); i++)
 	{
 		cout << commands->at(i)->toString() << endl;
 	}

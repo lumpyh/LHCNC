@@ -24,7 +24,7 @@ void cncMachine::createPath()
 {
 	vector<gCommand*>*  coms= this->gCode->getCommands();
 	
-	for( int i = 0; i < coms->size(); i++)
+	for( unsigned int i = 0; i < coms->size(); i++)
 	{
 		//cout << coms->at(i)->toString() << endl;
 		gcp->processCommand( coms->at(i));

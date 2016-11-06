@@ -80,7 +80,7 @@ void core::setGCodeFile()
 void core::printPath()
 {
 	vector<toolPath*>* path = this->cM.getPathes();
-	for( int i = 0; i < path->size(); i++)
+	for( unsigned int i = 0; i < path->size(); i++)
 	{
 		for( int j = 0; j < path->at(i)->size(); j++)
 		{
